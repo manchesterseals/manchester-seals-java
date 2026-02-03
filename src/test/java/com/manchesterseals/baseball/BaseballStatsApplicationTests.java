@@ -6,7 +6,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "spring.data.mongodb.uri=mongodb://localhost:27017/test_baseball_stats"
+    "spring.data.mongodb.uri=mongodb://localhost:27017/test_manchester_seals"
 })
 class BaseballStatsApplicationTests {
 
