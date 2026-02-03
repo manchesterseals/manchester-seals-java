@@ -2,7 +2,6 @@ package com.manchesterseals.baseball.controller;
 
 import com.manchesterseals.baseball.model.Player;
 import com.manchesterseals.baseball.repository.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,11 @@ import java.util.Optional;
 @RequestMapping("/api/players")
 public class PlayerController {
 
-    @Autowired
-    private PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
+
+    public PlayerController(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
 
     @GetMapping
     public List<Player> getAllPlayers() {

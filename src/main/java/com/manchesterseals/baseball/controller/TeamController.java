@@ -2,7 +2,6 @@ package com.manchesterseals.baseball.controller;
 
 import com.manchesterseals.baseball.model.Team;
 import com.manchesterseals.baseball.repository.TeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,11 @@ import java.util.Optional;
 @RequestMapping("/api/teams")
 public class TeamController {
 
-    @Autowired
-    private TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
+
+    public TeamController(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
 
     @GetMapping
     public List<Team> getAllTeams() {
@@ -31,12 +33,9 @@ public class TeamController {
 
     @GetMapping("/name/{name}")
     public ResponseEntity<Team> getTeamByName(@PathVariable String name) {
-        Team team = teamRepository.findByName(name);
-        if (team != null) {
-            return ResponseEntity.ok(team);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Optional<Team> team = teamRepository.findByName(name);
+        return team.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/league/{league}")
